@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -26,6 +28,7 @@ func main() {
 			iniciarMonitoramento()
 		case 2:
 			fmt.Println("Exibindo Logs...")
+			imprimeLogs()
 		case 0:
 			fmt.Println("Saindo do programa...")
 			os.Exit(0)
@@ -81,11 +84,16 @@ func testaSite(site string) {
 		fmt.Println("Ocorreu um erro:", err)
 	}
 
+	var status bool
 	if resposta.StatusCode == 200 {
 		fmt.Println("Site:", site, "foi carregado com sucesso!")
+		status = true
 	} else {
 		fmt.Println("Site:", site, "está com problemas. Status Code:", resposta.StatusCode)
+		status = false
 	}
+
+	registraLog(site, status)
 }
 
 func leSitesDoArquivo() []string {
@@ -111,6 +119,29 @@ func leSitesDoArquivo() []string {
 
 	arquivo.Close()
 	return sites
+}
+
+func registraLog(site string, status bool) {
+	arquivo, err := os.OpenFile("log.txt", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
+
+	if err != nil {
+		fmt.Println("Ocorreu um erro:", err)
+	}
+
+	now := time.Now().Format("02/01/2006 15:04:05") // os números representam constantes do pacote "time"
+	arquivo.WriteString(now + " - " + site + " - online: " + strconv.FormatBool(status) + "\n")
+
+	arquivo.Close()
+}
+
+func imprimeLogs() {
+	arquivo, err := ioutil.ReadFile("log.txt") // retorna um byte array
+
+	if err != nil {
+		fmt.Println("Ocorreu um erro: ", err)
+	}
+
+	fmt.Println(string(arquivo))
 }
 
 // para executar, podemos dar `go build hello.go` que builda o projeto e depois executamos com `./hello`.

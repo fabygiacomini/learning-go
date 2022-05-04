@@ -1,0 +1,9 @@
+04/05/2022 18:39:17 - https://random-status-code.herokuapp.com - online: true
+04/05/2022 18:39:19 - https://www.alura.com - online: true
+04/05/2022 18:39:19 - https://www.google.com - online: true
+04/05/2022 18:39:23 - https://random-status-code.herokuapp.com - online: true
+04/05/2022 18:39:24 - https://www.alura.com - online: true
+04/05/2022 18:39:24 - https://www.google.com - online: true
+04/05/2022 18:39:28 - https://random-status-code.herokuapp.com - online: false
+04/05/2022 18:39:28 - https://www.alura.com - online: true
+04/05/2022 18:39:29 - https://www.google.com - online: true
